@@ -34,7 +34,7 @@ public class Main {
 		for(int i = 0; i < n; i++)
 			bw.write(result[i] + " ");
 		
-		//버퍼를 잡아 놓았기 때문에 반드시 flush() / close() 를 반드시 호출해 주어 뒤처리를 해줘야함.
+		//버퍼를 잡아 놓았기 때문에 반드시 flush() / close() 를 반드시 호출해서 뒤처리를 해줘야함.
 		bw.close();
 	}
 
