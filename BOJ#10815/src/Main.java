@@ -1,4 +1,4 @@
-//수 찾기 -> 10815(숫자카드)과 똑같음
+//숫자카드 -> 1920(수 찾기)번과 똑같음
 import java.util.*;
 
 public class Main {
