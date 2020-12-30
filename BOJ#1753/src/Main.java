@@ -5,27 +5,27 @@ import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 
+class Node implements Comparable<Node>{
+	int end;
+	int weight;
+	
+	public Node(int end, int weight) {
+		this.end = end;
+		this.weight = weight;
+	}
+
+	@Override
+	public int compareTo(Node o) {
+		return this.weight - o.weight;
+	}
+}
+
 public class Main {
 
 	private static int INF = Integer.MAX_VALUE;
 	private static int[] dist;
 	private static ArrayList<Node>[] list;
 	private static boolean[] visited;
-	
-	static class Node implements Comparable<Node>{
-		int end;
-		int weight;
-		
-		public Node(int end, int weight) {
-			this.end = end;
-			this.weight = weight;
-		}
-
-		@Override
-		public int compareTo(Node o) {
-			return this.weight - o.weight;
-		}
-	}
 	
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
