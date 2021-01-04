@@ -38,12 +38,13 @@ public class Main {
 			tree[b].add(a);
 		}
 		
-		System.out.println(findEarly(1)); //루트노드인 1부터 시작
+		findEarly(1); //루트노드인 1부터 시작
+		System.out.println(Math.min(dp[1][0], dp[1][1])); //루트노드인 1을 기준으로 그 밑에서 필요한 얼리어답터의 최소 개수를 출력
 		
 		sc.close();
 	}
 	
-	public static int findEarly(int start) {
+	public static void findEarly(int start) {
 		visited[start] = true;
 		
 		//dp[start][0 or 1]에는 start노드 기준으로 해당 노드가 얼리어답터인지 아닌지에 따라서 필요한 최소 얼리어답터의 수가 저장됨
@@ -65,7 +66,6 @@ public class Main {
 			}
 		}
 		
-		return Math.min(dp[start][0], dp[start][1]); //루트노드인 1을 기준으로 그 밑에서 필요한 얼리어답터의 최소 개수를 반환함
 	}
 
 }
