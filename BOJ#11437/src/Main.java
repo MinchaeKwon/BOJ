@@ -58,22 +58,22 @@ public class Main {
 	public static void dfs(int v, int d) { //정점, 깊이
 		depth[v] = d;
 		
-//		LinkedList<Integer> child = list[v]; //각 정점에 연결된 노드들을 가져옴
-//		for (int i = 0; i < child.size(); i++) {
-//			int node = child.get(i);
-//			
-//			if (depth[node] == 0) { //깊이가 0이라는 것은 아직 깊이 계산이 안된 상태 -> 새로운 자식노드를 발견한 것
-//				dfs(node, d + 1);
-//				parent[node] = v;
-//			}
-//		}
-		
-		for (int child : list[v]) {
-			if (depth[child] == 0) {
-				dfs(child, d + 1);
-				parent[child] = v;
+		LinkedList<Integer> child = list[v]; //각 정점에 연결된 노드들을 가져옴
+		for (int i = 0; i < child.size(); i++) {
+			int node = child.get(i);
+			
+			if (depth[node] == 0) { //깊이가 0이라는 것은 아직 깊이 계산이 안된 상태 -> 새로운 자식노드를 발견한 것
+				dfs(node, d + 1);
+				parent[node] = v;
 			}
 		}
+		
+//		for (int child : list[v]) {
+//			if (depth[child] == 0) {
+//				dfs(child, d + 1);
+//				parent[child] = v;
+//			}
+//		}
 		
 	}
 	
