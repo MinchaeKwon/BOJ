@@ -48,7 +48,7 @@ public class Main {
 			}
 			
 			int root = findRoot(N); //루트가 1이 아니기 때문에 루트를 찾음
-			dfs(root, 1, N); //각 노드의 깊이를 알아냄
+			dfs(root, 0, -1); //각 노드의 깊이를 알아냄, 루트노드는 부모노드가 없기때문에 -1을 넣어주는 것
 			
 			//공통 조상을 찾을 노드 입력
 			int n1 = sc.nextInt();
@@ -69,14 +69,13 @@ public class Main {
 	}
 	
 	//각 노드의 깊이를 알아냄
-	public static void dfs(int v, int d, int N) { //정점, 깊이
+	public static void dfs(int v, int d, int p) { //정점, 깊이, 부모노드
 		depth[v] = d;
+		parent[v] = p;
 		
 		for (int child : list[v]) { //각 정점에 연결된 노드들을 가져옴
-			if (depth[child] == 0) { //깊이가 0이라는 것은 아직 깊이 계산이 안된 상태 -> 새로운 자식노드를 발견한 것
-				dfs(child, d + 1, N);
-				parent[child] = v;
-			}
+			if (child != p) //자식노드가 부모노드가 같은때는 탐색을 하면 안됨
+				dfs(child, d + 1, v);
 		}
 	}
 	
