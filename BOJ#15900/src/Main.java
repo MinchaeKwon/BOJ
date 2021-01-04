@@ -45,9 +45,13 @@ public class Main {
 		visited = new boolean[n + 1];
 		result = 0;
 		findWin(1, 0);
-		
-		System.out.println((result % 2 == 0) ? "No" : "Yes"); //루트노드에서 각 리프노드까지의 총 경로합이 홀수일 경우에만 성원이가 승리함
 
+		//루트노드에서 각 리프노드까지의 총 경로합이 홀수일 경우에만 성원이가 승리함
+		if (result % 2 == 0)
+			System.out.println("No");
+		else
+			System.out.println("Yes");
+		
 		br.close();
 	}
 	
