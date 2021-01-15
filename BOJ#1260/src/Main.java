@@ -2,7 +2,7 @@
  * 1260 - DFS와 BFS
  * https://www.acmicpc.net/problem/1260
  * 
- * @author minch
+ * @author Minchae Gwon
  * @date 2021.1.16
  * 
  * 문제
