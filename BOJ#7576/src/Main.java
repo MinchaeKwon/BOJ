@@ -34,54 +34,64 @@ class Tomato {
 }
 
 public class Main {
-
+	
 	//상하좌우의 토마토를 확인하기 위한 배열
-	static int[] dx = {-1, 1, 0, 0}; //상, 하
-	static int[] dy = {0, 0, -1, 1}; //좌, 우
+	static int[] dx = {1, -1, 0, 0}; //상, 하
+	static int[] dy = {0, 0, 1, -1}; //좌, 우
 	
 	public static void main(String[] args) {
 		
 		Scanner sc = new Scanner(System.in);
 		
-		int M = sc.nextInt();
-		int N = sc.nextInt();
+		int M = sc.nextInt(); //열
+		int N = sc.nextInt(); //행
 		
-		int[][] box = new int[M][N];
+		int[][] box = new int[N][M];
 		Queue<Tomato> queue = new LinkedList<>();
 		
-		for (int i = 0; i < M; i++) {
-			for (int j = 0; j < N; j++) {
+		int cnt = 0;
+		int empty = 0;
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < M; j++) {
 				box[i][j] = sc.nextInt();
 				
 				//익은 토마토를 큐에 넣어줌
 				if (box[i][j] == 1) {
 					queue.add(new Tomato(i, j, 0));
+					cnt++;
+				} else if (box[i][j] == -1) {
+					empty++;
 				}
 			}
 		}
 		
-		//토마토 익히기
-		System.out.println(getMinDay(M, N, box, queue));
+		//모든 토마토가 익어있는 상태라면 0을 출력
+		if (cnt == (N * M - empty)) {
+			System.out.println(0);
+		} else {
+			//토마토 익히기
+			System.out.println(getMinDay(N, M, box, queue));	
+		}
 		
 		sc.close();
 		
 	}
 	
-	public static int getMinDay(int M, int N, int[][] box, Queue<Tomato> q) {
-		int day = 0;
+	public static int getMinDay(int N, int M, int[][] box, Queue<Tomato> q) {
+        int day = 0;
 		
-		//토마토 익히기
-		while (!q.isEmpty()) { //익힌 토마토가 없어질때까지 주변 토마토를 익힘
+		//주변 토마토 익히기
+		while (!q.isEmpty()) { //익힌 토마토가 큐에서 없어질때까지 주변 토마토를 익힘
 			Tomato tomato = q.poll();
 			day = tomato.day;
 			
 			for (int i = 0; i < 4; i++) {
-				//상하좌우를 차례대로 확인하기 위한 좌표 얻음
+				//상하좌우를 차례대로 확인하기 위한 좌표를 얻음
 				int x = tomato.x + dx[i];
 				int y = tomato.y + dy[i];
 				
 				//토마토 상자의 범위를 벗어나는지 확인
-				if (x >= 0 && x < M && y >= 0 && y < N) {
+				if (x >= 0 && x < N && y >= 0 && y < M) {
 					//상하좌우를 확인하면서 토마토가 안익었다면 1로 바꿔주고 하루를 더해줌(하루가 지나야 상하좌우의 토마토가 익기때문)
 					if (box[x][y] == 0) {
 						box[x][y] = 1;
@@ -92,9 +102,9 @@ public class Main {
 		}
 		
 		//모든 토마토가 익었는지 확인
-		for (int i = 0; i < M; i++) {
-			for (int j = 0; j < N; j++) {
-				if (box[i][j] == 0) { //하나라도 0(토마토가 익지 않은 것)이라면 모든 토마토가 익지 않은 것이기 때문에 -1 출력
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < M; j++) {
+				if (box[i][j] == 0) { //한개라도 안익었으면 토마토가 다 익은 것이 아니기 때문에 -1을 반환
 					return -1;
 				}
 			}
@@ -102,6 +112,6 @@ public class Main {
 		
 		return day;
 		
-	}
+    }      
 
 }
