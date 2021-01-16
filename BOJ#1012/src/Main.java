@@ -99,7 +99,6 @@ public class Main {
 				int tc = c + dx[i];
 				int tr = r + dy[i];
 				
-				
 				if (tr >= 0 && tr < n && tc >= 0 && tc < m) {
 					if (map[tr][tc] == 1 && !visited[tr][tc]) {
 						q.add(new int[] {tr, tc});
