@@ -15,10 +15,13 @@
  */
 
 import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
 
 public class Main {
-
+	
+	static int computer;
+	
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		
@@ -40,10 +43,42 @@ public class Main {
 			list[b].add(a);
 		}
 		
-		//dfs나 bfs로 탐색하면서 1번 컴퓨터와 네트워크에 연결된 컴퓨터 개수를 셈
+		dfs(1, visited, list); //1번 컴퓨터를 통해 웜 바이러스에 걸리게 되는 컴퓨터 개수를 구하므로 1부터 시작함
+//		bfs(1, visited, list);
+		System.out.println(computer);
 		
 		sc.close();
 
+	}
+
+	public static void dfs(int start, boolean[] visited, LinkedList<Integer>[] list) {
+		visited[start] = true;
+		
+		for (int node : list[start]) {
+			if (!visited[node]) {
+				dfs(node, visited, list);
+				computer++;
+			}
+		}
+	}
+	
+	public static void bfs(int start, boolean[] visited, LinkedList<Integer>[] list) {
+		Queue<Integer> q = new LinkedList<>();
+		
+		q.add(start);
+		visited[start] = true;
+		
+		while(!q.isEmpty()) {
+			start = q.poll();
+			
+			for (int node : list[start]) {
+				if (!visited[node]) {
+					q.add(node);
+					visited[node] = true;
+					computer++;
+				}
+			}
+		}
 	}
 
 }
