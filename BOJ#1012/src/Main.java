@@ -2,7 +2,7 @@
  * 1012 - 유기농 배추
  * https://www.acmicpc.net/problem/1012
  * 
- * @author minch
+ * @author Minchae Gwon
  * @date 2021.1.16
  * 
  * 입력
