@@ -18,67 +18,74 @@
  * 첫째 줄에, 김지민이 한 번에 가장 많은 컴퓨터를 해킹할 수 있는 컴퓨터의 번호를 오름차순으로 출력한다.
  */
 
-import java.util.LinkedList;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 public class Main {
 	
 	static int[] computer;
 
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		
-		int N = sc.nextInt();
-		int M = sc.nextInt();
+		StringTokenizer st = new StringTokenizer(br.readLine());
 		
-		LinkedList<Integer>[] list = new LinkedList[N + 1];
+		int N = Integer.parseInt(st.nextToken());
+		int M = Integer.parseInt(st.nextToken());
+		
+		ArrayList<Integer>[] list = new ArrayList[N + 1];
 		
 		for (int i = 1; i <= N; i++) {
-			list[i] = new LinkedList<>();
+			list[i] = new ArrayList<>();
 		}
 		
 		for (int i = 0; i < M; i++) {
-			int a = sc.nextInt();
-			int b = sc.nextInt();
+			st = new StringTokenizer(br.readLine());
+			
+			int a = Integer.parseInt(st.nextToken());
+			int b = Integer.parseInt(st.nextToken());
 			
 			list[a].add(b);
-//			list[b].add(a);
 		}
 		
 		//각 컴퓨터(정점)별로 해킹할 수 있는 컴퓨터 수를 셈 -> 그 중에 최대값을 가진 컴퓨터를 출력
 		computer = new int[N + 1];
-		
+		int max = Integer.MIN_VALUE;
 		for (int i = 1; i <= N; i++) {
 			boolean[] visited = new boolean[N + 1];
 			dfs(i, visited, list);
 		}
 		
 		//최대로 해킹할 수 있는 컴퓨터 수를 구함
-		int max = Integer.MIN_VALUE;
 		for (int i = 1; i <= N; i++) {
-			if (computer[i] > max) {
-				max = computer[i];
-			}
+			System.out.println("max - " + max + ", result - " + computer[i]);
+			max = Math.max(max, computer[i]);
 		}
 		
 		//가장 많은 컴퓨터를 해킹할 수 있는 컴퓨터가 여러개일수도 있기 때문에 for문을 돌면서 각 컴퓨터 번호를 출력
-		for (int i = 0; i <= N; i++) {
-			if (max == computer[i]) {
-				System.out.print(i + " ");
+		for (int i = 1; i <= N; i++) {
+			if (computer[i] == max) {
+				bw.write(i + " ");
 			}
 		}
 		
-		sc.close();
-
+		bw.flush();
+		bw.close();
 	}
 	
-	public static void dfs(int start, boolean[] visited, LinkedList<Integer>[] list) {
+	public static void dfs(int start, boolean[] visited, ArrayList<Integer>[] list) {
 		visited[start] = true;
-		
+
 		for (int node : list[start]) {
 			if (!visited[node]) {
+				computer[node]++;
 				dfs(node, visited, list);
-				computer[start]++;
 			}
 		}
 		
