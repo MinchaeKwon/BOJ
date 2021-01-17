@@ -64,7 +64,6 @@ public class Main {
 		
 		//최대로 해킹할 수 있는 컴퓨터 수를 구함
 		for (int i = 1; i <= N; i++) {
-			System.out.println("max - " + max + ", result - " + computer[i]);
 			max = Math.max(max, computer[i]);
 		}
 		
