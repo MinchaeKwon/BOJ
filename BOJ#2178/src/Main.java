@@ -2,7 +2,7 @@
  * 2178 - 미로 탐색
  * https://www.acmicpc.net/problem/2178
  * 
- * @author minch
+ * @author Minchae Gwon
  * @date 2021.1.16
  * 
  * 문제
