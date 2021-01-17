@@ -1,23 +1,29 @@
 //숫자카드 -> 1920(수 찾기)번과 똑같음
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main {
 
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-		int n = sc.nextInt();
+		int n = Integer.parseInt(br.readLine());
 		int[] A = new int[n];
 		
-		for(int i = 0; i < A.length; i++)
-			A[i] = sc.nextInt();
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		for(int i = 0; i < A.length; i++) {
+			A[i] = Integer.parseInt(st.nextToken());	
+		}
 		Arrays.sort(A);
 		
-		int m = sc.nextInt();
+		int m = Integer.parseInt(br.readLine());
 		int[] B = new int[m];
 		
+		st = new StringTokenizer(br.readLine());
 		for(int i = 0; i < B.length; i++) {
-			B[i] = sc.nextInt();
+			B[i] = Integer.parseInt(st.nextToken());
 			
 			if(search(B[i], A) != -1)
 				System.out.println("1");
@@ -25,7 +31,6 @@ public class Main {
 				System.out.println("0");
 		}
 		
-		sc.close();
 	}
 
 	private static int search(int key, int[] arr) { //이분 탐색
