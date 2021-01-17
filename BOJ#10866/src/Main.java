@@ -1,26 +1,30 @@
 //덱
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main {
 
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
 		Deque<Integer> deque = new LinkedList<>();
 		
-		int n = sc.nextInt();
+		int n = Integer.parseInt(br.readLine());
 		
 		for(int i = 0; i < n; i++) {
-			String s = sc.next();
+			StringTokenizer st = new StringTokenizer(br.readLine());
+			String s = st.nextToken();
 			
 			switch(s) {
 			case "push_front":
-				int f = sc.nextInt();
+				int f = Integer.parseInt(st.nextToken());
 				deque.addFirst(f);
 				
 				break;
 			case "push_back":
-				int b = sc.nextInt();
+				int b = Integer.parseInt(st.nextToken());
 				deque.addLast(b);
 				
 				break;
@@ -60,7 +64,6 @@ public class Main {
 			}
 		}
 		
-		sc.close();
 
 	}
 
