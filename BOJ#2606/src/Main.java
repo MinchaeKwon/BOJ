@@ -2,7 +2,7 @@
  * 2606 - 바이러스
  * https://www.acmicpc.net/problem/2606
  * 
- * @author minch
+ * @author Minchae Gwon
  * @date 2021.1.16
  * 
  * 입력
