@@ -69,9 +69,9 @@ public class Main {
 	//플로이드 워샬
 	public static void floyd(int n, int[][] map) {		
 		//각각 모든 경로에 대해 최단경로를 만들어줌
-		for (int k = 1; k <= n; k++) {
-			for (int i = 1; i <= n; i++) {
-				for (int j = 1; j <= n; j++) {
+		for (int k = 1; k <= n; k++) { //k 거쳐가는 도시
+			for (int i = 1; i <= n; i++) { //i 시작 도시
+				for (int j = 1; j <= n; j++) { //j는 도착 도시
 					if (map[i][j] > map[i][k] + map[k][j]) {
 						map[i][j] = map[i][k] + map[k][j];
 					}
