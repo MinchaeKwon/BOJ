@@ -90,6 +90,7 @@ public class Main {
 	
 	//플로이드 워샬 알고리즘 사용
 	public static void floyd(int n, int[][] map) {
+		//입력받을 때 값을 비교해서 최소값을 넣는 것이 아니기 때문에 처음에 초기화 하지 않고 먼저 값을 넣은 다음에 값이 들어가지 않은 부분만 INF로 채우면됨
 		//경로가 없는 부분은 INF를 넣어줌
 		for (int i = 1; i <= n; i++) {
 			for (int j = 1; j <= n; j++) {
