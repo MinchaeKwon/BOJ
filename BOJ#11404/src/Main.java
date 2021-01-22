@@ -37,6 +37,8 @@ public class Main {
 		int[][] map = new int[n + 1][n + 1];
 		
 		//초기값 넣어줌
+		//INF로 초기화를 해야 경로를 입력받는 부분에서 현재 저장되어 있는 값과 입력받은 값을 비교해서 더 작은 값을 넣을 수 있음
+		//배열을 만들면 0으로 초기화 되기 때문에 INF로 초기화 하지 않는다면 0만 계속 들어가게 됨(입력받은 값이 0보다 더 크기 때문)
 		for (int i = 1; i <= n; i++) {
 			for (int j = 1; j <= n; j++) {
 				//자기 자신으로의 경로 비용은 0임
@@ -49,14 +51,6 @@ public class Main {
 			}
 		}
 		
-		for (int i = 1; i <= n; i++) {
-			for (int j = 1; j <= n; j++) {
-				System.out.print(map[i][j] + " ");
-			}
-			System.out.println();
-		}
-		System.out.println();
-		
 		for (int i = 0; i < m; i++) {
 			StringTokenizer st = new StringTokenizer(br.readLine());
 			
@@ -66,33 +60,15 @@ public class Main {
 			
 			//출발 도시와 도착 도시가 같은데 비용이 다른 경우가 있음 -> 최소 비용을 저장해줘야 하기 때문에 둘중에서 작은 값을 넣어줌
 			map[a][b] = Math.min(map[a][b], c);
-			System.out.println(map[a][b]);
 		}
-		
-		for (int i = 1; i <= n; i++) {
-			for (int j = 1; j <= n; j++) {
-				System.out.print(map[i][j] + " ");
-			}
-			System.out.println();
-		}
-		System.out.println();
 		
 		floyd(n, map);
 
 	}
 	
 	//플로이드 워샬
-	public static void floyd(int n, int[][] map) {
-		//경로가 없는 부분은 INF를 넣어줌
-		for (int i = 1; i <= n; i++) {
-			for (int j = 1; j <= n; j++) {
-				if (i != j && map[i][j] == 0) { //자신 자신으로의 경로가 아니거나 경로가 없으면 INF를 넣어줌 
-					map[i][j] = INF;
-				}
-			}
-		}
-		
-		//각각 모든 경로에 대해 최단경로를 만들어줌 -> 1-2, 1-3, 1-4, 2-1, 2-2 ...
+	public static void floyd(int n, int[][] map) {		
+		//각각 모든 경로에 대해 최단경로를 만들어줌
 		for (int k = 1; k <= n; k++) {
 			for (int i = 1; i <= n; i++) {
 				for (int j = 1; j <= n; j++) {
@@ -103,8 +79,13 @@ public class Main {
 			}
 		}
 		
+		//결과 출력
 		for (int i = 1; i <= n; i++) {
 			for (int j = 1; j <= n; j++) {
+				//경로가 없는 경우에는 0을 출력해야하기 때문에 0을 넣어줌
+				if (map[i][j] == INF) {
+					map[i][j] = 0;
+				}
 				System.out.print(map[i][j] + " ");
 			}
 			System.out.println();
