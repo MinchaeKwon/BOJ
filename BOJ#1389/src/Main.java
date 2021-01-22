@@ -101,9 +101,9 @@ public class Main {
 		}
 		
 		//각각 모든 경로에 대해 최단경로를 만들어줌 -> 1-2, 1-3, 1-4, 2-1, 2-2 ...
-		for (int k = 1; k <= n; k++) {
-			for (int i = 1; i <= n; i++) {
-				for (int j = 1; j <= n; j++) {
+		for (int k = 1; k <= n; k++) { //k는 거쳐가는 노드
+			for (int i = 1; i <= n; i++) { //i는 출발 노드
+				for (int j = 1; j <= n; j++) { //j는 도착 노드
 					if (map[i][j] > map[i][k] + map[k][j]) {
 						map[i][j] = map[i][k] + map[k][j];
 					}
