@@ -3,7 +3,7 @@
  * https://www.acmicpc.net/problem/11780
  * 
  * @author Minchae Gwon
- * @date 2021.1.23
+ * @date 2021.1.25
  * 
  * 문제
  * n(1 ≤ n ≤ 100)개의 도시가 있다. 그리고 한 도시에서 출발하여 다른 도시에 도착하는 m(1 ≤ m ≤ 100,000)개의 버스가 있다. 각 버스는 한 번 사용할 때 필요한 비용이 있다.
@@ -23,11 +23,13 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Stack;
 import java.util.StringTokenizer;
 
 public class Main {
 
 	static final int INF = 99999999;
+	static int[][] path;
 	
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -36,10 +38,13 @@ public class Main {
 		int m = Integer.parseInt(br.readLine());
 		
 		int[][] map = new int[n + 1][n + 1];
+		path = new int[n + 1][n + 1];
 		
 		//초기값 넣어줌
 		for (int i = 1; i <= n; i++) {
 			for (int j = 1; j <= n; j++) {
+				path[i][j] = INF;
+				
 				//자기 자신으로의 경로 비용은 0임
 				if (i == j) {
 					map[i][j] = 0;
@@ -59,10 +64,11 @@ public class Main {
 			
 			//출발 도시와 도착 도시가 같은데 비용이 다른 경우가 있음 -> 최소 비용을 저장해줘야 하기 때문에 둘중에서 작은 값을 넣어줌
 			map[a][b] = Math.min(map[a][b], c);
+			path[a][b] = a;
 		}
 		
 		floyd(n, map);
-		
+		printPath(n, map);
 
 	}
 	
@@ -74,12 +80,16 @@ public class Main {
 				for (int j = 1; j <= n; j++) { //j는 도착 도시
 					if (map[i][j] > map[i][k] + map[k][j]) {
 						map[i][j] = map[i][k] + map[k][j];
+						//중간 경로로 정점 k를 거쳐서 가도록 함
+						path[i][j] = path[k][j];
 					}
 				}
 			}
 		}
-		
-		//결과 출력
+
+	}
+	
+	public static void printPath(int n, int[][] map) {
 		for (int i = 1; i <= n; i++) {
 			for (int j = 1; j <= n; j++) {
 				//경로가 없는 경우에는 0을 출력해야하기 때문에 0을 넣어줌
@@ -90,6 +100,37 @@ public class Main {
 			}
 			System.out.println();
 		}
+		
+		//스택에 경로를 저장하고 하나씩 pop하면서 출력
+		Stack<Integer> stack = new Stack<>();
+		
+		//최단 거리 경로
+		for (int i = 1; i <= n; i++) {
+			for (int j = 1; j <= n; j++) {
+				//i == j -> 자기 자신으로 가는 경로 이거나 경로가 없는 경우에는 0출력
+				if (path[i][j] == INF) {
+					System.out.println(0);
+				} else {
+					int pre = j;
+					stack.add(j); //거쳐가는 정점
+					
+					while (i != path[i][pre]) { //도착 정점까지 스택에 push
+						pre = path[i][pre];
+						stack.push(pre);
+					}
+					//최단 거리 경로 크기(출발 정점도 포함)
+					System.out.print(stack.size() + 1 + " ");
+					System.out.print(i + " ");
+					
+					//스택이 비어있을 때까지 출력
+					while (!stack.empty()) {
+						System.out.print(stack.pop() + " ");
+					}
+					System.out.println();
+				}
+			}
+		}
+		
 	}
 
 }
