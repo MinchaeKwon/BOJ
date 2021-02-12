@@ -61,31 +61,33 @@ public class Main {
 			return matrix;
 		}
 		else if (b % 2 == 0) { //b가 짝수인 경우 (행렬의 b/2제곱)*(행렬의 b/2제곱)
-			int[][] tmp = matrixPow(b / 2);
+			int[][] prev = matrixPow(b / 2);
 			
 			for (int i = 0; i < n; i++) {
 				for (int j = 0; j < n; j++) {
 					for (int k = 0; k < n; k++) {
-						result[i][j] += tmp[i][k] * tmp[k][j];
+						result[i][j] += prev[i][k] * prev[k][j];
 					}
 					result[i][j] %= 1000;
 				}
 			}
+			
+			return result;
 		}
 		else { //b가 홀수인 경우(행렬의 b-1제곱) * 원래 행렬
-			int[][] tmp = matrixPow(b - 1);
+			int[][] prev = matrixPow(b - 1);
 			
 			for (int i = 0; i < n; i++) {
 				for (int j = 0; j < n; j++) {		
 					for (int k = 0; k < n; k++) {
-						result[i][j] += tmp[i][k] * matrix[k][j];
+						result[i][j] += prev[i][k] * matrix[k][j];
 					}
 					result[i][j] %= 1000;
 				}
 			}
+			
+			return result;
 		}
-		
-		return result;
 		
 	}
 
