@@ -3,7 +3,7 @@
  * https://www.acmicpc.net/problem/14500
  * 
  * @author Minchae Gwon
- * @date 2021.2.13
+ * @date 2021.2.14
  * 
  * 입력
  * 첫째 줄에 종이의 세로 크기 N과 가로 크기 M이 주어진다. (4 ≤ N, M ≤ 500)
@@ -59,6 +59,8 @@ public class Main {
 	
 	//백트랙킹 사용
 	public static void getScore(int x, int y, int depth, int sum) {
+		
+		
 		//깊이가 4이면 정사각형 네개를 탐색했다는 의미이므로 점수를 구해주고 종료
 		if(depth == 4) {
 			max = Math.max(sum, max);
@@ -70,15 +72,31 @@ public class Main {
 			int ty = y + dy[i];
 			
 			//정사각형 범위를 벗어나지 않고 방문하지 않은 칸일 경우
-			if (tx >= 0 && tx < n && tx >= 0 && ty < m) {
-				if (!visited[tx][ty]) {
-					visited[tx][ty] = true;
-					getScore(tx, ty, depth + 1, sum + map[tx][ty]);
-					visited[tx][ty] = false;	
+			if (tx >= 0 && tx < n && ty >= 0 && ty < m && !visited[tx][ty]) {
+				visited[tx][ty] = true;
+				getScore(tx, ty, depth + 1, sum + map[tx][ty]);
+				
+				//'ㅗ' 모양을 위해 depth가 2일 때 다른 한 점을 더 탐색하도록 하고 depth + 2를 함
+				if (depth == 2) {
+					for (int j = 0; j < 4; j++) {
+						int sx = x + dx[j];
+						int sy = y + dy[j];
+						
+						if (sx >= 0 && sx < n && sy >= 0 && sy < m && !visited[sx][sy]) {
+							visited[sx][sy] = true;
+							getScore(sx, sy, depth + 2, sum + map[tx][ty] + map[sx][sy]);
+							visited[sx][sy] = false;
+						}
+					}
 				}
+				
+				visited[tx][ty] = false;
 			}
 			
 		}
+		
+		
+		
 	}
 
 }
