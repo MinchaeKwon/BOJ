@@ -44,6 +44,7 @@ public class Main {
 					int h = histogram[stack.peek()]; //넓이를 구할 직사각형의 높이
 					int w = i; //넓이를 구할 직사각형 가로
 					
+					//그냥 i를 가로로 하면 제대로 된 직사각형의 넓이를 구할 수 없음
 					if (!stack.empty()) {
 						w = i - stack.pop();
 					}
