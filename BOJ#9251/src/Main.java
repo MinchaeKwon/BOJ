@@ -35,7 +35,8 @@ public class Main {
 				//인덱스 0부터 저장되어있기 때문에 -1을 해줌
 				if (s1.charAt(i - 1) == s2.charAt(j - 1)) {
 					dp[i][j] = dp[i - 1][j - 1] + 1;
-				} else {
+				}
+				else {
 					dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
 				}
 			}
