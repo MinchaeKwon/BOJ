@@ -73,7 +73,7 @@ public class Main {
 			lastCheese = cheese; //치즈가 모두 녹기 한 시간 전에 남아있는 치즈조각
 			
 			//치즈를 한 번 녹이면 외부, 내부 공기를 다시 구분해야하므로 다시 bfs 실행
-			bfs();
+			bfs(0, 0);
 			
 			//녹은 치즈 탐색
 			for (int i = 0; i < n; i++) {
@@ -120,17 +120,17 @@ public class Main {
 	}
 	
 	//외부 공기, 내부 공기 구분하기 -> bfs 사용
-	public static void bfs() {
+	public static void bfs(int x, int y) {
 		Queue<Point> q = new LinkedList<>();
 		
 		//맨 왼쪽 위부터 외부 공기 있는지 확인 -> 치즈는 가장자리에 놓이지 않으므로 이 부분은 항상 외부 공기이기 때문에 큐에 넣어줌
-		q.add(new Point(0, 0));
+		q.add(new Point(x, y));
 		
 		while (!q.isEmpty()) {
 			Point point = q.poll();
 			
-			int x = point.x;
-			int y = point.y;
+			x = point.x;
+			y = point.y;
 		
 			for (int i = 0; i < 4; i++) {
 				int nx = x + dx[i];
