@@ -40,8 +40,8 @@ public class Main {
 	static int size = 2; // 아기 상어의 초기 크기
 	static int sx, sy; // 아기 상어의 초기 좌표 
 	static int fish = 0; // 아기 상어가 먹은 물고기 개수
-	public static int minD, minX, minY; // 먹을 수 있는 물고기까지의 최소 서기, 최소 x값, 최소 y값
-	public static int result = 0;
+	static int minD, minX, minY; // 먹을 수 있는 물고기까지의 최소 서기, 최소 x값, 최소 y값
+	static int result = 0;
 
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
