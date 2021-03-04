@@ -1,4 +1,3 @@
-
 /**
  * 16236 아기 상어
  * https://www.acmicpc.net/problem/16236
@@ -19,32 +18,36 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 class Shark {
-	int sx;
-	int sy;
+	int x;
+	int y;
 
-	Shark(int sx, int sy) {
-		this.sx = sx;
-		this.sy = sy;
+	Shark(int x, int y) {
+		this.x = x;
+		this.y = y;
 	}
 }
 
 public class Main {
-	public static int[][] map;
-	public static int[][] check; // 아기 상어의 이동 거리를 체크하기 위한 배열
-	public static int N;
-	public static int sx, sy; // 아기 상어의 초기 좌표
-	public static int size = 2; // 아기 상어의 초기 크기
-	public static int eat = 0; // 아기 상어가 몇 마리의 물고기를 먹었는지 판별하기 위한 변수
-	public static int minD, minX, minY; // 아기 상어의 최소 거리, 최소 x값, 최소 y값
-	public static int ans = 0;
-	public static int[][] dir = { { -1, 0 }, { 0, -1 }, { 1, 0 }, { 0, 1 } }; // 상, 좌, 하, 우
+	
+	// 상하좌우
+	static int[] dx = {-1, 0, 1, 0};
+	static int[] dy = {0, -1, 0, 1};
+	
+	static int N;
+	static int[][] map;
+	static int[][] dist; // 아기 상어의 이동 거리 확인
+	
+	static int size = 2; // 아기 상어의 초기 크기
+	static int sx, sy; // 아기 상어의 초기 좌표 
+	static int fish = 0; // 아기 상어가 먹은 물고기 개수
+	public static int minD, minX, minY; // 먹을 수 있는 물고기까지의 최소 서기, 최소 x값, 최소 y값
+	public static int result = 0;
 
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 		N = Integer.parseInt(br.readLine());
 		map = new int[N][N];
-		check = new int[N][N];
 
 		for (int i = 0; i < N; i++) {
 			StringTokenizer st = new StringTokenizer(br.readLine());
@@ -52,94 +55,92 @@ public class Main {
 			for (int j = 0; j < N; j++) {
 				map[i][j] = Integer.parseInt(st.nextToken());
 
-				// 아기 상어의 초기 위치
+				// 아기 상어 초기 위치 저장
 				if (map[i][j] == 9) {
 					sx = i;
 					sy = j;
+					map[i][j] = 0;
 				}
+				
 			}
 		}
 
-		// 아기 상어 이동 시작
 		while (true) {
-			initCheck(); // BFS 재탐색을 위한 초기화 함수
+			dist = new int[N][N];
+			
+			minX = Integer.MAX_VALUE;
+			minY = Integer.MAX_VALUE;
+			minD = Integer.MAX_VALUE;
 
-			bfs(sx, sy); // BFS로 상어를 이동시키며, 최단 거리로 만날 수 있는 물고기를 탐색
+			bfs(sx, sy);
 
-			if (minX != Integer.MAX_VALUE) { // 물고기를 찾았다면
-				ans += minD; // 그때의 이동 거리가 이동 시간이니 정답 변수에 추가
+			if (minX != Integer.MAX_VALUE) { // 물고기를 발견한 경우
+				result += minD; // 물고기까지의 이동 거리를 더해줌(이동거리가 이동 시간임
 
-				eat++; // 물고기 먹었으니 +1
-				if (size == eat) { // 상어 크기와 같은 수의 물고기를 먹었다면, 크기 1 증가
+				fish++;
+				
+				// 먹은 물고기의 개수가 아기 상어 크기와 같은 경우
+				if (fish == size) {
+					// 아기 상어 크기 증가, 먹은 물고기를 개수 초기화
 					size++;
-					eat = 0;
+					fish = 0;
 				}
 
-				// 아기 상어 위치 이동
+				// 아기 상어 이동
 				map[minX][minY] = 0;
 				sx = minX;
 				sy = minY;
-			} else {
+			}
+			else {
 				break;
 			}
 		}
 
-		// 더이상 먹을 물고기가 없다면 정답 출력
-		System.out.println(ans);
+		System.out.println(result);
 	}
 
-	public static void initCheck() {
-		minX = Integer.MAX_VALUE;
-		minY = Integer.MAX_VALUE;
-		minD = Integer.MAX_VALUE;
-
-		for (int i = 0; i < N; i++) {
-			for (int j = 0; j < N; j++) {
-				check[i][j] = -1;
-			}
-		}
-	}
-
+	// 아기 상어를 이동시키면서 먹을 수 있는 물고기 탐색
 	public static void bfs(int x, int y) {
-		Queue<Shark> que = new LinkedList<Shark>();
+		Queue<Shark> q = new LinkedList<Shark>();
 
-		que.add(new Shark(x, y));
-		map[x][y] = 0;
-		check[x][y] = 0;
+		q.add(new Shark(x, y));
 
-		while (!que.isEmpty()) {
-			Shark p = que.poll();
-			x = p.sx;
-			y = p.sy;
+		while (!q.isEmpty()) {
+			Shark p = q.poll();
+			x = p.x;
+			y = p.y;
 
-			// 4방향 탐색
 			for (int i = 0; i < 4; i++) {
-				int nx = x + dir[i][0];
-				int ny = y + dir[i][1];
+				int nx = x + dx[i];
+				int ny = y + dy[i];
 
-				if (nx >= 0 && nx < N && ny >= 0 & ny < N && check[nx][ny] == -1 && map[nx][ny] <= size) {
-					// 위의 조건을 모두 벗어난 이동할 수 있는 곳이라면
-					check[nx][ny] = check[x][y] + 1; // 이동 거리 1 증가
+				// 범위를 벗어나지 않고 방문하지 않은 곳이고 아기 상어의 크기보다 같거나 작을 경우 -> 이동을 하거나 물고기를 먹을 수 있음
+				if (nx >= 0 && nx < N && ny >= 0 & ny < N && dist[nx][ny] == 0 && map[nx][ny] <= size) {
+					dist[nx][ny] = dist[x][y] + 1; // 해당 위치까지의 이동 거리 1 증가
 
-					// 그런데 이곳이 현재의 아기 상어보다 작은 물고기가 있는 곳이라면
+					// 해당 위치에 물고기가 있고 아기 상어 크기보다 작은 경우 -> 물고기를 먹을 수 있음
 					if (map[nx][ny] != 0 && map[nx][ny] < size) {
-						if (check[nx][ny] < minD) {
+						// 해당 위치의 물고기까지의 이동 거리가 더 작은 경우
+						if (dist[nx][ny] < minD) {
 							minX = nx;
 							minY = ny;
-							minD = check[nx][ny];
-						} else if (check[nx][ny] == minD) { // 거리가 가까운 물고기가 많다면
-							if (nx < minX) { // 가장 위쪽에 있는 물고기 먹음
+							minD = dist[nx][ny];
+						}
+						else if (dist[nx][ny] == minD) { // 거리가 가까운 물고기가 많은 경우
+							if (nx < minX) { // 가장 위에 있는 물고기를 먹음
 								minX = nx;
 								minY = ny;
-							} else if (nx == minX) { // 가장 위쪽에 있는 물고기가 많다면
-								if (ny < minY) { // 가장 위쪽 중, 가장 왼쪽 물고기 먹음
+							}
+							else if (nx == minX) { // 가장 위에 있는 물고기가 많은 경우
+								if (ny < minY) { // 그중에서 가장 왼쪽에 있는 물고기를 먹음
 									minX = nx;
 									minY = ny;
 								}
 							}
 						}
 					}
-					que.add(new Shark(nx, ny));
+					
+					q.add(new Shark(nx, ny));
 				}
 			}
 		}
