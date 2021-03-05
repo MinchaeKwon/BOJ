@@ -1,9 +1,12 @@
 /**
- * 1916 최소 비용 구하기
+ * 1916 최소비용 구하기
  * https://www.acmicpc.net/problem/1916
  * 
  * @author Minchae Gwon
  * @date 2021.3.6
+ * 
+ * 출력
+ * 첫째 줄에 출발 도시에서 도착 도시까지 가는데 드는 최소 비용을 출력한다.
  */
 
 import java.io.BufferedReader;
