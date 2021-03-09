@@ -11,12 +11,25 @@ import java.util.StringTokenizer;
  * @date 2021.3.8
  */
 
-
+class Point {
+	int x;
+	int y;
+	
+	public Point (int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+}
 
 public class Main {
 	
+	// 상하좌우
+	static int[] dx = {-1, 0, 1, 0};
+	static int[] dy = {0, -1, 0, 1};
+	
 	static int N, M;
 	static int[][] map;
+	static int[][] dist;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -31,6 +44,8 @@ public class Main {
 				map[i][j] = Integer.parseInt(st.nextToken());
 			}
 		}
+		
+		
 		
 	}
 
