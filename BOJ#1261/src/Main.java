@@ -74,7 +74,7 @@ public class Main {
 			x = p.x;
 			y = p.y;
 			
-			// 도착점에 온 경우
+			// 도착점에 온 경우 -> 최소 경로를 찾는 것이 아니기 때문에 바로 도착점에 온다면 바로 return 해도됨
 			if (x == N - 1 && y == M - 1) {
 				return p.cnt;
 			}
