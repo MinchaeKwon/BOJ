@@ -4,8 +4,6 @@
  * 
  * @author Minchae Gwon
  * @date 2021.3.16
- * 
- * 소가 있는 곳은 1
  */
 
 import java.io.BufferedReader;
