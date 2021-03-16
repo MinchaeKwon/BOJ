@@ -14,7 +14,7 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 class Point {
-	int video; // 특정 정점과 연결된 다른 정
+	int video; // 특정 정점과 연결된 다른 정점 
 	int usado; // 동영상 쌍의 USADO
 	
 	public Point(int video, int usado) {
