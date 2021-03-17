@@ -58,7 +58,7 @@ public class Main {
 			}
 			
 			int D = r.num * 2 % 10000;
-			int S = r.num == 0 ? r.num - 1 : 9999;
+			int S = r.num == 0 ? 9999 : r.num - 1;
 			int L = r.num % 1000 * 10 + r.num / 1000;
 			int R = r.num % 10 * 1000 + r.num / 10;
 			
