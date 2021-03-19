@@ -3,7 +3,7 @@
  * https://www.acmicpc.net/problem/9466
  * 
  * @author minchae
- * @date 2021.3.19
+ * @date 2021.3.20
  * 
  * 사이클이 만들어졌는지 확인하는 배열도 추가해야함 -> 이미 사이클이 만들어졌는데 또 방문하면 안됨
  * 
@@ -18,7 +18,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -34,7 +33,6 @@ public class Main {
 		int T = Integer.parseInt(br.readLine());
 		
 		for (int i = 0; i < T; i++) {
-//			System.out.println(1111);
 			int n = Integer.parseInt(br.readLine());
 			
 			stu = new int[n + 1];
@@ -43,11 +41,10 @@ public class Main {
 			
 			StringTokenizer st = new StringTokenizer(br.readLine());
 			for (int j = 1; j <= n; j++) {
-				stu[i] = Integer.parseInt(st.nextToken());
+				stu[j] = Integer.parseInt(st.nextToken());
 			}
 			
 			result = 0;
-			
 			for (int j = 1; j <= n; j++) {
 				if (!visited[j]) {
 					dfs(j);
@@ -61,25 +58,20 @@ public class Main {
 	}
 	
 	public static void dfs(int n) {
-//		System.out.println(3333);
 		visited[n] = true;
 		
 		if (!visited[stu[n]]) { // stu[n]은 n이 같이 팀을 이루고 싶은 학생의 번호 
 			dfs(stu[n]); // 다시 탐색 
 		}
 		else if (!cycle[stu[n]]) { // 다음 노드가 이미 방문된 상태고 사이클이 생성되지 않은 경우에 팀을 이뤄야함 
-			result++; // 팀원 한명 추가 
+			result++; // 팀원 한명 추가(n번 학생 추가)
 			
-			for (int i = stu[n]; i != n; i = stu[i]) {
+			int i = stu[n]; // 현재 팀원과 연결된 팀원들을 추가해줌 
+			while (i != n) {
 				result++;
+				
+				i = stu[i];
 			}
-			
-//			int i = stu.get(n);
-//			while (i != n) {
-//				result++;
-//				
-//				i = stu.get(i);
-//			}
 		}
 		
 		// 팀을 이뤘으니 true로 바꿔줌 -> 다른 노드에서 n을 방문해도 사이클을 생성 못하게 함 
