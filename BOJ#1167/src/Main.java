@@ -5,7 +5,7 @@
  * @author minchae
  * @date 2021.3.22
  * 
- * 특정 정점에서 가장 멀리 있는 정점과 이 정점에서 가장 멀리 있는 정점 사이의 거리가 트리의 지름 
+ * 트리의 지름 - 특정 정점에서 가장 멀리 있는 정점과 이 정점에서 가장 멀리 있는 정점 사이의 거리
  */
 
 import java.io.BufferedReader;
@@ -17,7 +17,7 @@ import java.util.StringTokenizer;
 
 class Node {
 	int node; // 특정 노드와 연결된 다른 노드 
-	int dist;
+	int dist; // 노드 사이의 거리 
 	
 	public Node(int node, int dist) {
 		this.node = node;
@@ -78,6 +78,7 @@ public class Main {
 	public static void dfs(int start, int d) {
 		visited[start] = true;
 		
+		// 현재 노드의 거리가 len보다 큰 경우 len과 lenNode를 갱신해줌 
 		if (d > len) {
 			len = d;
 			lenNode = start;
