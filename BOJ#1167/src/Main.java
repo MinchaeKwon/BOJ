@@ -29,7 +29,6 @@ public class Main {
 	
 	static LinkedList<Node>[] list;
 	static boolean[] visited;
-	static int[] distance;
 	
 	static int len; // 가장 긴 지름
 	static int lenNode; // 특정 노드로부터 가장 긴 지름을 가지는 노드 번호 
@@ -41,7 +40,6 @@ public class Main {
 		
 		list = new LinkedList[V + 1];
 		visited = new boolean[V + 1];
-		distance = new int[V + 1];
 		
 		for (int i = 1; i <= V; i++) {
 			list[i] = new LinkedList<>();
