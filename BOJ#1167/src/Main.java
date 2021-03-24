@@ -59,6 +59,7 @@ public class Main {
 				int dist = Integer.parseInt(st.nextToken());
 				
 				list[a].add(new Node(b, dist));
+				list[b].add(new Node(a, dist));
 			}
 			
 		}
