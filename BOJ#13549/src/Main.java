@@ -41,17 +41,17 @@ public class Main {
 		
 	}
 	
-	public static void bfs(int n, int k) {
+	public static void bfs(int N, int K) {
 		Queue<Pair> q = new LinkedList<>();
 		
-		q.add(new Pair(n, 0));
+		q.add(new Pair(N, 0));
+		visited[N] = true;
 		
 		while (!q.isEmpty()) {
 			Pair p = q.poll();
-			visited[p.n] = true;
 			
 			// 동생을 찾는 경우 종료 
-			if (p.n == k) {
+			if (p.n == K) {
 				System.out.println(p.time);
 				return;
 			}
@@ -60,16 +60,19 @@ public class Main {
 			// 순간이동을 하는 경우에는 0초 후에 2*X의 위치로 이동
 			if (2 * p.n <= 100000 && !visited[2 * p.n]) {
 				q.add(new Pair(2 * p.n, p.time));
+				visited[2 * p.n] = true;
 			}
 			
 			// 걷는다면 1초 후에 X-1로 이동
 			if (p.n - 1 >= 0 && !visited[p.n - 1]) {
 				q.add(new Pair(p.n - 1, p.time + 1));
+				visited[p.n - 1] = true;
 			}
 			
 			// 걷는다면 1초 후에 X+1로 이동
 			if (p.n + 1 <= 100000 && !visited[p.n + 1]) {
 				q.add(new Pair(p.n + 1, p.time + 1));
+				visited[p.n + 1] = true;
 			}
 			
 		}
