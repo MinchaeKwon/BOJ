@@ -9,7 +9,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.StringTokenizer;
@@ -121,22 +120,6 @@ public class Main {
             	}
             }
             treeList.addAll(0, newTree);
-            
-            // 메모리 초과 발생하는 코드
-//            for (int i = 0; i < treeList.size(); i++) {
-//            	Tree tree = treeList.get(i);
-//            	
-//            	if (tree.age % 5 == 0) {
-//            		for (int j = 0; j < 8; j++) {
-//            			int nx = tree.x + dx[j];
-//            			int ny = tree.y + dy[j];
-//            			
-//            			if (nx >= 0 && nx < N && ny >= 0 && ny < N) {
-//            				treeList.add(0, new Tree(nx, ny, 1, false)); // 나이가 1인 나무 생성
-//            			}
-//            		}
-//            	}
-//            }
             
             /* 겨울에는 S2D2가 땅을 돌아다니면서 땅에 양분을 추가한다. 각 칸에 추가되는 양분의 양은 A[r][c]이고, 입력으로 주어진다. */
             for (int i = 0; i < N; i++) {
