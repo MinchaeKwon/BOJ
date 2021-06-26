@@ -50,6 +50,8 @@ public class Main {
 		
 		while(!pq.isEmpty()) {
 			int first = pq.poll();
+			
+			// 순서 출력
 			System.out.print(first + " ");
 			
 			for (int next : list[first]) {
