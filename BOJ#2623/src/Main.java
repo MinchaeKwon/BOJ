@@ -3,7 +3,7 @@
  * https://www.acmicpc.net/problem/2623
  * 
  * @author minchae
- * date 2021. 6. 26.
+ * @date 2021. 6. 26.
  */
 
 import java.io.BufferedReader;
