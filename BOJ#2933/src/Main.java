@@ -53,7 +53,7 @@ public class Main {
 			int height = R - Integer.parseInt(st.nextToken());
 			
 			throwStick(height, i);
-			downCluster();
+			dropCluster();
 		}
 		
 		for (int i = 0; i < R; i++) {
@@ -70,7 +70,6 @@ public class Main {
 				// 미네랄이 있는 경우 파괴
 				if (map[row][i] == 'x') {
 					map[row][i] = '.';
-					System.out.println(map[row][i]);
 					break; // 막대가 날아가다가 미네랄을 만나면, 그 칸에 있는 미네랄은 모두 파괴되고 막대는 그 자리에서 이동을 멈춤
 				}
 			}
@@ -79,7 +78,6 @@ public class Main {
 			for (int i = C - 1; i >= 0; i--) {
 				if (map[row][i] == 'x') {
 					map[row][i] = '.';
-					
 					break;
 				}
 			}
@@ -87,19 +85,20 @@ public class Main {
 	}
 	
 	// 클러스터 떨어뜨리기
-	public static void downCluster() {
+	public static void dropCluster() {
 		boolean[][] visited = new boolean[R][C];
 		Queue<Mineral> q = new LinkedList<>();
 		
-		// 바닥에 있는 미네랄 클러스터 체크
+		// 땅에 있는 미네랄 클러스터 체크
 		for (int i = 0; i < C; i++) {
 			if (map[R - 1][i] == 'x' && !visited[R - 1][i]) {
-				q.add(new Mineral(R - 1, i));
 				visited[R - 1][i] = true;
+				q.add(new Mineral(R - 1, i));
 				
 				while (!q.isEmpty()) {
 					Mineral mineral = q.poll();
 					
+					// 상하좌우를 탐색하면서 땅에 있는 클러스터를 체크
 					for (int j = 0; j < 4; j++) {
 						int nx = mineral.x + dx[j];
 						int ny = mineral.y + dy[j];
@@ -119,6 +118,7 @@ public class Main {
 		ArrayList<Mineral> cluster = new ArrayList<>();
 		
 		// 공중에 떠 있는 미네랄 클러스터 체크
+		// 위의 for문에서 탐색되지 못한 클러스터는 공중에 있는 것임
 		for (int i = 0; i < R; i++) {
 			for (int j = 0; j < C; j++) {
 				if (!visited[i][j] && map[i][j] == 'x') {
@@ -135,7 +135,7 @@ public class Main {
 		
 		boolean flag = true;
 		
-		// 미네랄 클러스터를 떨어뜨릴 수 있는지 확인
+		// 미네랄 클러스터를 떨어뜨릴 수 있는지 확인(아래 행에 클러스터가 있는지 없는지 확인)
 		while (flag) {
 			for (Mineral m : cluster) {
 				int nx = m.x + 1; // 밑으로 내릴 수 있는지 확인하기 위해 +1을 하는 것
@@ -149,10 +149,10 @@ public class Main {
 				
 			}
 			
-			// 클러스터의 모양이 변하지 않기 때문에 한번에 위치를 바꿔줌
+			// 모든 클러스터가 밑으로 내려갈 수 있는 경우에만 위치를 바꿔줌
 			if (flag) {
 				for (Mineral m : cluster) {
-					m.x++;
+					m.x += 1;
 				}
 			}
 			
