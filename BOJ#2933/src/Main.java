@@ -4,6 +4,8 @@
  * 
  * @author minchae
  * @date 2021. 6. 30.
+ * 
+ * 18500번 미네랄2와 똑같은 문제
  */
 
 import java.io.BufferedReader;
