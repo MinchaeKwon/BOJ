@@ -88,7 +88,7 @@ public class Main {
 			// 만약 N번째에서 사이클이 발생할 경우에는 isUpdate이 다시 false로 변경되지 않기 때문에 true일 경우에는 사이클이 발생한 것
 			for (int j = 1; j <= n; j++) {
 				for (Node node : nodeList[j]) {
-					if (dist[j] != INF && dist[node.end] > dist[j] + node.weight) {
+					if (dist[node.end] > dist[j] + node.weight) {
 						dist[node.end] = dist[j] + node.weight;
 						isUpdate = true;
 					}
@@ -103,16 +103,10 @@ public class Main {
 		
 		// 사이클이 발생한 경우 true 반환
 		if (isUpdate) {
-            for (int i = 1; i <= n; i++) {
-                for (Node node : nodeList[i]) {
-                    if (dist[i] != INF && dist[node.end] > dist[i] + node.weight) {
-                        return true;
-                    }
-                }
-            }
-        }
- 
-        return false;
+			return true;
+		}
+		
+		return false;
 	}
 
 }
