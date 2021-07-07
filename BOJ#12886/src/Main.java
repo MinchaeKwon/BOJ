@@ -70,8 +70,6 @@ public class Main {
 				int na = a > b ? a - b : a * 2;
 				int nb = a > b ? b * 2 : b - a;
 				
-				System.out.println("na " + na + ", nb " + nb);
-				
 				if (!visited[na][nb]) {
 					q.add(new Stone(na, nb, c));
 					visited[na][nb] = true;
@@ -82,8 +80,6 @@ public class Main {
 				int na = a > c ? a - c : a * 2;
 				int nc = a > c ? c * 2 : c - a;
 				
-				System.out.println("na " + na + ", nc " + nc);
-				
 				if (!visited[na][nc]) {
 					q.add(new Stone(na, b, nc));
 					visited[na][nc] = true;
@@ -93,8 +89,6 @@ public class Main {
 			if (b != c) {
 				int nb = b > c ? b - c : b * 2;
 				int nc = b > c ? c * 2 : c - b;
-				
-				System.out.println("nb " + nb + ", nc " + nc);
 				
 				if (!visited[nb][nc]) {
 					q.add(new Stone(a, nb, nc));
