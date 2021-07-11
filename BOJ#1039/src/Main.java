@@ -26,7 +26,7 @@ class Trade {
 public class Main {
 
 	static int N, K;
-	static int result;
+	static int result = -1; // K번 연산을 할 수 없는 경우 -1을 출력하도록 -1로 초기화
 	
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -50,10 +50,10 @@ public class Main {
 		while (!q.isEmpty()) {
 			Trade t = q.poll();
 			
+			// 교환 횟수가 K일 경우 최댓값 갱신 후 다음 숫자로 넘어감
 			if (t.cnt == K) {
-				System.out.println(111);
 				result = Math.max(result, t.num);
-				break;
+				continue;
 			}
 			
 			int len = String.valueOf(t.num).length();
@@ -62,7 +62,7 @@ public class Main {
 				for (int j = i + 1; j < len; j++) {
 					int next = swap(t.num, i , j);
 					
-					if (next != -1 && visited[next][t.cnt + 1]) {
+					if (next != -1 && !visited[next][t.cnt + 1]) {
 						q.add(new Trade(next, t.cnt + 1));
 						visited[next][t.cnt + 1] = true;
 					}
@@ -76,10 +76,12 @@ public class Main {
 	public static int swap(int n, int i, int j) {
 		char[] numArr = String.valueOf(n).toCharArray();
 		
+		// i가 0이고 j번 위치의 숫자가 0이라면 숫자를 바꿨을 때 0으로 시작하게 되기 때문에 -1을 return
 		if (i == 0 && numArr[j] == '0') {
 			return -1;
 		}
 		
+		// 위치 바꾸기
 		char tmp;
 		tmp = numArr[i];
 		numArr[i] = numArr[j];
