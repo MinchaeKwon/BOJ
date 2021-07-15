@@ -14,8 +14,8 @@ import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
 class Computer implements Comparable<Computer> {
-	int depend; // 특정 컴퓨터에 의존된 컴퓨터
-	int time;
+	int depend; // 특정 컴퓨터를 의존하는 컴퓨터
+	int time; // 감염되기까지의 시간
 	
 	public Computer(int depend, int time) {
 		this.depend = depend;
@@ -24,6 +24,7 @@ class Computer implements Comparable<Computer> {
 
 	@Override
 	public int compareTo(Computer o) {
+		// 감염 시간을 기준으로 오름차순으로 정렬
 		return this.time - o.time;
 	}
 }
