@@ -24,6 +24,7 @@ public class Main {
 		
 		parent = new int[n + 1];
 		
+		// i를 유일한 원소로 가지는 집합 생성 (make set)
 		for (int i = 1; i <= n; i++) {
 			parent[i] = i;
 		}
@@ -52,7 +53,7 @@ public class Main {
 
 	}
 	
-	// x가 속하는 부모 원소(최상위 원소)를 찾음
+	// x가 속하는 집합에서 최상위 원소(부모 원소)를 찾음
 	public static int find(int x) {
 		if (parent[x] == x) {
 			return x;
