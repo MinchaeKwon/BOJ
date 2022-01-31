@@ -78,8 +78,9 @@ public class Main {
 	private static int getSquare() {
 		int cnt = 0;
 		
-		for (int i = 0; i < 101; i++) {
-			for (int j = 0; j < 101; j++) {
+		// +1을 하면서 드래곤 커브인지 확인하기 때문에 범위를 i < 100으로 설정
+		for (int i = 0; i < 100; i++) {
+			for (int j = 0; j < 100; j++) {
 				if (map[i][j] && map[i + 1][j] && map[i][j + 1] && map[i + 1][j + 1]) {
 					cnt++;
 				}
