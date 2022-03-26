@@ -66,7 +66,7 @@ public class Main {
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < N; j++) {
 				// 섬인 경우 -> 다리를 놓아야 하기 때문에 bfs 실행
-				// 최소 다리 길이를 찾아야 하기 때문에 다리를 발견하면 bfs를 실행해야하기 때문에 !visited[i][j]를 확인하지 않음
+				// 최소 다리 길이를 찾아야 하기 때문에 섬을 발견하면 bfs를 실행해야하기 때문에 !visited[i][j]를 확인하지 않음
 				if (map[i][j] > 0) {
 					bfs(i, j);
 				}
@@ -88,9 +88,6 @@ public class Main {
 			if (nx >= 0 && nx < N && ny >= 0 && ny < N) {
 				// 아직 방문하지 않았고, 섬인 경우
 				if (!visited[nx][ny] && map[nx][ny] == 1) {
-					visited[nx][ny] = true;
-					map[nx][ny] = num;
-					
 					dfs(nx, ny, visited, num);
 				}
 			}
