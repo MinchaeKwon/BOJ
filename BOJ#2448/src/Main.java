@@ -28,12 +28,16 @@ public class Main {
 		
 		drawStar(0, N - 1, N);
 		
+		StringBuilder sb = new StringBuilder();
+		
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < 2 * N - 1; j++) {
-				System.out.print(star[i][j]);
+				sb.append(star[i][j]);
 			}
-			System.out.println();
+			sb.append("\n");
 		}
+		
+		System.out.println(sb);
 	}
 	
 	private static void drawStar(int x, int y, int n) {
