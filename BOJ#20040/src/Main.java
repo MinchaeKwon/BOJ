@@ -37,6 +37,7 @@ public class Main {
             int a = Integer.parseInt(st.nextToken());
             int b = Integer.parseInt(st.nextToken());
             
+            // 두 점의 번호의 부모가 같은 경우는 사이클이 형성된 것
             if (find(a) == find(b)) {
             	result = i + 1;
             	break;
