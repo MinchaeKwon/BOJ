@@ -3,7 +3,7 @@
  * https://www.acmicpc.net/problem/8980
  * 
  * @author minchae
- * @date 2022. 4. 23.
+ * @date 2022. 4. 24.
  */
 
 import java.io.BufferedReader;
@@ -70,11 +70,12 @@ public class Main {
 			
 			int max = 0;
 			
+			// 이미 실린 박스 중에서 최댓값을 구함
 			for (int i = start; i < end; i++) {
 				max = Math.max(max, box[i]);
 			}
 			
-			int load = Math.max(C - max, num);
+			int load = Math.min(C - max, num); // 실을 수 있는 박스의 수
 			boxCnt += load;
 			
 			for (int i = start; i < end; i++) {
