@@ -50,7 +50,7 @@ public class Main {
 		}
 		
 		boolean[][] visited = new boolean[N][N];
-		int num = 2;
+		int num = 1;
 		
 		// 섬에 번호를 새김
 		for (int i = 0; i < N; i++) {
