@@ -4,6 +4,8 @@
  * 
  * @author minchae
  * @date 2022. 5. 3.
+ * 
+ * DFS, BFS, 크루스칼 알고리즘(MST) 사용
  */
 
 import java.io.BufferedReader;
@@ -101,6 +103,7 @@ public class Main {
 		
 		parent = new int[island];
 		
+		// 부모를 자기 자신으로 초기화
 		for (int i = 1; i < island; i++) {
 			parent[i] = i;
 		}
@@ -199,9 +202,9 @@ public class Main {
     public static int find(int x) {
         if (parent[x] == x) {
             return x;
-        } else {
-            return parent[x] = find(parent[x]);
         }
+        
+        return parent[x] = find(parent[x]);
     }
 	
     // 두 개의 노드가 속한 집합을 합침(연결함)
