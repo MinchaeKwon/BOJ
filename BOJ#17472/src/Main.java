@@ -3,7 +3,7 @@
  * https://www.acmicpc.net/problem/17472
  * 
  * @author minchae
- * @date 2022. 5. 2.
+ * @date 2022. 5. 3.
  */
 
 import java.io.BufferedReader;
@@ -77,14 +77,14 @@ public class Main {
 		}
 		
 		boolean[][] visited = new boolean[N][M];
-		int num = 1;
+		int island = 1;
 		
 		// 섬에 번호를 새김
 		for (int i = 0; i < N; i++) {
            for (int j = 0; j < M; j++) {
         	   if (!visited[i][j] && map[i][j] == 1) {
-        		   dfs(i, j, visited, num);
-        		   num++;
+        		   dfs(i, j, visited, island);
+        		   island++;
 	            }
 	        }
 	    }
@@ -94,29 +94,17 @@ public class Main {
 			for (int j = 0; j < M; j++) {
 				// 섬인 경우 -> 다리를 놓아야 하기 때문에 bfs 실행
 				if (map[i][j] > 0) {
-					bfs(i, j, map[i][j]);
+					bfs(i, j);
 				}
 			}
 		}
 		
-		int island = num - 1;
 		parent = new int[island];
 		
-		for (int i = 0; i < island; i++) {
+		for (int i = 1; i < island; i++) {
 			parent[i] = i;
 		}
 		
-		System.out.println("섬 개수 : " + island);
-//		
-//		for (int i = 0; i < N; i++) {
-//			for (int j = 0; j < M; j++) {
-//				System.out.print(map[i][j] + " ");
-//			}
-//			System.out.println();
-//		}
-		
-//		int result = kruskal(num - 1);
-//		System.out.println(result == 0 ? -1 : result);
 		System.out.println(kruskal(island));
 	}
 	
@@ -138,36 +126,37 @@ public class Main {
 	}
 	
 	// 다리를 놓는 메소드
-	public static void bfs(int x, int y, int idx) {
+	public static void bfs(int x, int y) {
 		Queue<Point> q = new LinkedList<>();
 		boolean[][] visited = new boolean[N][M];
 		
-		q.add(new Point(x, y, 0));
-		visited[x][y] = true;
-		
 		int cur = map[x][y]; // 현재 섬의 번호
 		
-		while (!q.isEmpty()) {
-			Point p = q.poll();
+		for (int i = 0; i < 4; i++) {
+			q.add(new Point(x, y, 0));
+			visited[x][y] = true;
 			
-			for (int i = 0; i < 4; i++) {
+			while (!q.isEmpty()) {
+				Point p = q.poll();
+				
 				int nx = p.x + dx[i];
 				int ny = p.y + dy[i];
 				
 				// 범위를 벗어나지 않으면서 아직 방문하지 않았고, 현재 섬이 아닌 경우
 				if (nx >= 0 && nx < N && ny >= 0 && ny < M && !visited[nx][ny] && map[nx][ny] != cur) {
-					visited[nx][ny] = true;
-					
 					if (map[nx][ny] == 0) {
+						// 바다인 경우 다리 길이 +1
 						q.add(new Point(nx, ny, p.count + 1));
-//						visited[nx][ny] = true;
+						visited[nx][ny] = true;
 					} else {
-						int start = idx - 1;
-						int end = map[nx][ny] - 1;
-						int bridgeLen = p.count;
+						// 다른 섬을 만날 경우
+						int start = cur;
+						int end = map[nx][ny];
+						int bridge = p.count;
 						
-						if (bridgeLen >= 2) {	
-							pq.add(new Edge(start, end, bridgeLen));
+						// 다리 길이가 2 이상일 경우 우선순위 큐에 추가
+						if (bridge >= 2) {
+							pq.add(new Edge(start, end, bridge));
 							break;
 						}
 					}
@@ -179,7 +168,6 @@ public class Main {
 	// 모든 섬을 연결하는 다리 길이의 최솟값을 구하는 메소드
 	public static int kruskal(int num) {
 		int sum = 0;
-		int bridge = 0;
 		
 		while (!pq.isEmpty()) {
             Edge edge = pq.poll();
@@ -190,26 +178,21 @@ public class Main {
             // 최상위 노드가 같지 않을 경우 union
             if (rootS != rootE) {
                 union(rootS, rootE);
-                
                 sum += edge.weight; // 가중치를 더함
-                bridge++;
             }
         }
 		
-//		for (Edge edge : pq) {
-//			int x = edge.start;
-//			int y = edge.end;
-//			
-//			if (find(x) != find(y)) {
-//				union(x, y);
-//				
-//				sum += edge.weight;
-//				bridge++;
-//			}
-//		}
+		// 모든 섬이 연결되어 있는지 확인
+		int root = parent[1];
 		
-		// 다리를 합친 길이가 0이거나 다리의 개수가 섬의 개수 - 1이 아니면 -1 반환, 아니면 다리를 합친 길이를 반환
-		return sum == 0 && bridge == num - 1 ? -1 : sum;
+		for(int i = 2; i < num; i++) {
+			// if (find(i) != 1)도 가능
+			if (find(i) != root) {
+				return -1;
+			}
+		}
+		
+		return sum;
 	}
 	
 	// x가 속하는 부모 노드(최상위 노드)를 찾음
@@ -222,15 +205,13 @@ public class Main {
     }
 	
     // 두 개의 노드가 속한 집합을 합침(연결함)
-    public static void union(int x, int y) {		
-    	// 각 원소의 최상위 원소를 찾음
-        x = find(x);
-        y = find(y);
-
-        // 최상위 원소가 같지 않을 경우 union
-        if (x != y) {
-        	 parent[x] = y;
-        }
+    public static void union(int x, int y) {
+    	// 숫자가 더 작은 쪽을 부모 노드로 함
+    	if (x < y) {
+			parent[y] = x;
+		} else {
+			parent[x] = y;
+		}
     }
 
 }
