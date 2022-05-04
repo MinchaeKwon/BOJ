@@ -3,7 +3,7 @@
  * https://www.acmicpc.net/problem/10835
  * 
  * @author minchae
- * @date 2022. 5. 4.
+ * @date 2022. 5. 5.
  */
 
 import java.io.BufferedReader;
@@ -37,12 +37,13 @@ public class Main {
 			B[i] = Integer.parseInt(st.nextToken());
 		}
 		
-		int[][] dp = new int[N][N];
+		dp = new int[N][N];
 		
 		for (int i = 0; i < N; i++) {
 			Arrays.fill(dp[i], -1);	
 		}
 
+		System.out.println(playGame(0, 0));
 	}
 	
 	public static int playGame(int left, int right) {
@@ -51,7 +52,18 @@ public class Main {
 			return 0;
 		}
 		
-		return -1;
+		if (dp[left][right] != -1) {
+			return dp[left][right];
+		}
+		
+		// 왼쪽 카드를 버리거나 왼쪽, 오른쪽 카드 두개 다 버리는 경우 중 큰 수 -> 규칙 1
+		dp[left][right] = Math.max(playGame(left + 1, right), playGame(left + 1, right + 1));
+		
+		// 만약 오른쪽 카드가 더 작은 경우에는 오른쪽 카드를 버림(오른쪽 카드 값을 더함) -> 규칙 2
+        if (A[left] > B[right])
+            dp[left][right] = Math.max(dp[left][right], B[right] + playGame(left, right + 1));
+        
+        return dp[left][right];
 	}
 
 }
