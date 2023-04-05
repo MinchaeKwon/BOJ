@@ -19,9 +19,8 @@ public class Main {
 	static int[] dx = {-1, 1, 0, 0};
 	static int[] dy = {0, 0, -1, 1};
 	
-	static int N, Q;
+	static int N;
 	static int[][] map;
-	static int[] step;
 	
 	static int iceSum = 0; // 남아있는 얼음의 양
 	static int iceSize = 0; // 가장 큰 얼음 덩어리의 크기
@@ -31,7 +30,7 @@ public class Main {
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		
 		N = Integer.parseInt(st.nextToken());
-		Q = Integer.parseInt(st.nextToken());
+		int Q = Integer.parseInt(st.nextToken());
 		
 		N = (int) Math.pow(2, N);
 		map = new int[N][N];
