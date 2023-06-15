@@ -79,21 +79,21 @@ public class Main {
                 int start = 0;
 
                 // 위에 있는 말 정보 얻기
-                for (int num = 0; num < map[node.x][node.y].size(); num++) {
-                    if (map[node.x][node.y].get(num) == i) {
+                for (int num = 0; num < map[x][y].size(); num++) {
+                    if (map[x][y].get(num) == i) {
                         start = num;
                         break;
                     }
                 }
 
                 // 현재 이동시키려는 말을 포함해서 위에 있는 말들을 저장
-                for (int num = start; num < map[node.x][node.y].size(); num++) {
-                    above.add(map[node.x][node.y].get(num));
+                for (int num = start; num < map[x][y].size(); num++) {
+                    above.add(map[x][y].get(num));
                 }
 
                 // 이동하려는 칸
-                int nx = node.x + dx[node.dir];
-                int ny = node.y + dy[node.dir];
+                int nx = x + dx[node.dir];
+                int ny = y + dy[node.dir];
 
                 // 범위를 벗어나거나 파란색 칸일 경우
                 if (nx < 0 || nx >= N || ny < 0 || ny >= N || color[nx][ny] == 2) {
