@@ -14,15 +14,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
-class Point {
+class Point implements Comparable<Point> {
 	int x;
 	int y;
 	int dir;
-	int cnt; //거울 개수
+	int cnt; // 거울 개수
 	
 	public Point(int x, int y, int dir, int cnt) {
 		this.x = x;
@@ -30,18 +29,24 @@ class Point {
 		this.dir = dir;
 		this.cnt = cnt;
 	}
+
+	// 거울 개수를 기준으로 오름차순 정렬
+    	@Override
+	public int compareTo(Point o) {
+		return cnt - o.cnt;
+	}
 }
 
-public class Main {
+public class BOJ6087 {
 	
-	// 북동남서
+	// 상좌하우
 	static int[] dx = {-1, 0, 1, 0};
 	static int[] dy = {0, -1, 0, 1};
 	
 	static int W, H;
 	static char[][] map;
-	static ArrayList<Point> laser = new ArrayList<>(); //레이저의 위치를 담을 리스트
-	static int result;
+	static ArrayList<Point> laser = new ArrayList<>(); // 레이저의 위치를 담을 리스트
+	static int result = Integer.MAX_VALUE;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -54,10 +59,9 @@ public class Main {
 		
 		for (int i = 0; i < H; i++) {
 			String s = br.readLine();
+            		map[i] = s.toCharArray();
 			
 			for (int j = 0; j < W; j++) {
-				map[i][j] = s.charAt(j);
-				
 				if (map[i][j] == 'C') {
 					laser.add(new Point(i, j, -1, 0)); // 레이저를 리스트에 추가, 레이저는 방향이 없으므로 -1을 넣어줌
 				}
@@ -71,49 +75,47 @@ public class Main {
 	}
 	
 	public static void bfs(Point start) {
-		Queue<Point> q = new LinkedList<>();
-		int[][] mirror = new int[H][W]; // 특정 위치까지 필요한 거울의 최소 개수 저장
-		
-		for (int i = 0; i < H; i++) {
-			Arrays.fill(mirror[i], Integer.MAX_VALUE);
-		}
+	        PriorityQueue<Point> q = new PriorityQueue<>();
+		int[][][] mirror = new int[4][H][W]; // 레이저 방향, 특정 위치까지 필요한 거울의 최소 개수 저장 
+			
+	        for (int i = 0; i < 4; i++) {
+	            for (int j = 0; j < H; j++) {
+	                Arrays.fill(mirror[i][j], Integer.MAX_VALUE);
+	            }
+	        }
 		
 		// 레이저 끝 부분
 		Point end = laser.get(1);
 		
 		q.add(start);
-		mirror[start.x][start.y] = 0; // 시작점에서는 거울 필요 X
 		
 		while (!q.isEmpty()) {
-            Point p = q.poll();
+	            Point p = q.poll();
+	
+	            int x = p.x;
+	            int y = p.y;
+	            int dir = p.dir;
+	
+	            if (x == end.x && y == end.y) {
+	                result = Math.min(result, p.cnt);
+	                continue;
+	            }
 
-            int x = p.x;
-            int y = p.y;
-            int dir = p.dir;
-
-            if (x == end.x && y == end.y) {
-            	result = p.cnt;
-            }
-
-            for (int i = 0; i < 4; i++) {
-                int nx = x + dx[i];
-                int ny = y + dy[i];
-                
-                if (nx >= 0 && nx < H && ny >= 0 && ny < W && map[nx][ny] != '*') {
-                	int cnt = p.cnt; // 다음 방향을 탐색할 때 cnt가 누적되지 않도록 초기화 해줌
-                	
-                	// 현재 좌표와 다음 좌표의 방향이 다른 경우 거울 개수 증가, -1은 레이저의 시작 부분이거나 끝 부분이므로 거울을 설치할 필요가 없음
-                    if (dir != i && dir != -1) {
-                        cnt++;
-                    }
-                    
-                    // 현재 위치에서의 거울 개수가 더 작을 경우에만 큐에 추가 -> 다 추가해버리면 이미 들어갔던게 또 큐에 들어갈 수 있음
-                    if (mirror[nx][ny] >= cnt) {
-						mirror[nx][ny] = cnt;
-						q.add(new Point(nx, ny, i, cnt));
-					}
-                }
-            }
+	            for (int i = 0; i < 4; i++) {
+	                int nx = x + dx[i];
+	                int ny = y + dy[i];
+	                
+	                if (nx >= 0 && nx < H && ny >= 0 && ny < W && map[nx][ny] != '*') {
+				// 현재 좌표와 다음 좌표의 방향이 다른 경우와 -1이 아닌 경우에만 거울 개수 증가 (-1은 레이저가 있는 부분이기 때문에 거울 설치할 필요 없음)
+				int cnt = dir == i || dir == -1 ? p.cnt : p.cnt + 1;
+	                    
+				// 현재 위치에서의 거울 개수가 더 작을 경우에만 큐에 추가 -> 다 추가해버리면 이미 들어갔던게 또 큐에 들어갈 수 있음
+				if (mirror[i][nx][ny] > cnt) {
+					mirror[i][nx][ny] = cnt;
+					q.add(new Point(nx, ny, i, cnt));
+				}
+	                }
+	            }
 		}
 		
 	}
