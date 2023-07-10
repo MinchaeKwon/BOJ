@@ -3,7 +3,7 @@
  * https://www.acmicpc.net/problem/1063
  * 
  * @author minchae
- * @date 2023. 7. 9.
+ * @date 2023. 7. 10.
  */
 
 import java.io.BufferedReader;
@@ -26,23 +26,22 @@ public class Main {
         while (N-- > 0) {
             String order = br.readLine();
 
-            // 움직이고 나서 범위 벗어나거나 돌과 겹치는지 확인하기 위해 배열 복사해서 사용
+            // 움직인 후에 범위를 벗어나거나 돌과 겹치는지 확인하기 위채 배열 복사해서 사용
             char[] copyKing = king.clone();
             char[] copyStone = stone.clone();
 
             move(order, copyKing); // 킹을 움직임
 
-            // 킹의 위치가 범위를 벗어나는지 확인
+            // 킹의 위치가 범위를 벗어나는지 확인 (범위 벗어나면 다음 이동 건너뜀)
             if (copyKing[0] < 'A' || copyKing[0] > 'H' || copyKing[1] < '1' || copyKing[1] > '8') {
                 continue;
             }
         
-            // 킹을 움직였는데 돌과 같은 위치인 경우
+            // 킹을 움직였는데 돌이 있는 경우
             if (Arrays.equals(copyKing, copyStone)) {
-                // 돌을 움직임
-                move(order, copyStone);
+                move(order, copyStone); // 돌을 움직임
 
-                // 돌의 위치가 범위를 벗어나는지 확인
+                // 돌의 위치가 범위를 벗어나는지 확인 (범위 벗어나면 다음 이동 건너뜀)
                 if (copyStone[0] < 'A' || copyStone[0] > 'H' || copyStone[1] < '1' || copyStone[1] > '8') {
                     continue;
                 }
@@ -69,7 +68,8 @@ public class Main {
      * LB : 왼쪽 아래 대각선으로
      */
 
-     // 킹이나 돌을 움직이는 함수
+    // 킹이나 돌을 움직이는 함수
+    // 
     private static void move(String order, char[] pos) {
         switch (order) {
             case "R":
