@@ -217,9 +217,10 @@ public class BOJ21609 {
 						break;
 					}
 					
+					// 블록을 만난 경우 해당 빈칸에 블록을 넣음
 					if (map[x][j] != -2) {
-						map[i][j] = map[x][j];
-						map[x][j] = -2;
+						map[i][j] = map[x][j]; // 해당 빈칸에 블록을 넣음
+						map[x][j] = -2; // 블록이 있던 자리는 빈칸으로 만듦
 						
 						break;
 					}
