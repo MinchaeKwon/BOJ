@@ -188,7 +188,7 @@ public class BOJ23290 {
 			int ny = y + sdy[i];
 			
 			if (checkRange(nx, ny)) {
-				arr[depth] = i;
+				arr[depth] = i; // depth가 인덱스 역할을 함
 				
 				// 상어가 방문한 칸이랑 방문하지 않은 칸을 나눠서 봄
 				if (!visited[nx][ny]) {
