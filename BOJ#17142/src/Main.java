@@ -3,7 +3,7 @@
  * https://www.acmicpc.net/problem/17142
  * 
  * @author minchae
- * @date 2023. 6. 15.
+ * @date 2024. 1. 18. 수정
  */
 
 import java.io.BufferedReader;
@@ -33,8 +33,10 @@ public class Main {
     static int[] dy = { 0, 0, -1, 1 };
 
     static int N, M;
-    static int[][] map;
+    static int[][] map; // 0은 빈 칸, 1은 벽, 2는 바이러스의 위치
     static ArrayList<Virus> virusList = new ArrayList<>();
+    
+    static Virus[] virus;
 
     static int empty = 0;
     static int answer = Integer.MAX_VALUE;
@@ -47,6 +49,7 @@ public class Main {
         M = Integer.parseInt(st.nextToken());
 
         map = new int[N][N];
+        virus = new Virus[M];
 
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
@@ -83,11 +86,8 @@ public class Main {
         }
 
         for (int i = start; i < virusList.size(); i++) {
-            Virus v = virusList.get(i);
-
-            map[v.x][v.y] = 3; // 활성 바이러스는 3으로 표시
+            virus[depth] = virusList.get(i);
             selectActiveVirus(i + 1, depth + 1);
-            map[v.x][v.y] = 2;
         }
     }
 
@@ -95,47 +95,47 @@ public class Main {
     private static void bfs(int cnt) {
         Queue<Virus> q = new LinkedList<>();
         boolean[][] visited = new boolean[N][N]; // 바이러스 확산 여부 저장
-
+        
         // 활성 바이러스 위치 큐에 넣어줌
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                if (map[i][j] == 3) {
-                    q.add(new Virus(i, j, 0));
-                    visited[i][j] = true;
-                }
-            }
+        for (Virus v : virus) {
+        	q.add(new Virus(v.x, v.y, 0));
+        	visited[v.x][v.y] = true;
         }
 
         while (!q.isEmpty()) {
-            Virus v = q.poll();
+            Virus cur = q.poll();
 
             for (int i = 0; i < 4; i++) {
-                int nx = v.x + dx[i];
-                int ny = v.y + dy[i];
-
-                // 범위 벗어나지 않은 경우
-                if (nx >= 0 && nx < N && ny >= 0 && ny < N) {
-                    // 바이러스가 퍼지지 않았고, 벽이 아닌 경우에만 퍼뜨릴 수 있음
-                    if (!visited[nx][ny] && map[nx][ny] != 1) {
-                        q.add(new Virus(nx, ny, v.time + 1));
-                        visited[nx][ny] = true;
-
-                        // 빈 칸일 경우 바이러스를 퍼뜨리기 때문에 cnt 감소시킴
-                        if (map[nx][ny] == 0) {
-                            cnt--;
-                        }
-
-                        // 빈 칸이 다 없어질 경우에 최단 시간 갱신
-                        if (cnt == 0) {
-                            answer = Math.min(answer, v.time + 1);
-                            return;
-                        }
-                    }
+                int nx = cur.x + dx[i];
+                int ny = cur.y + dy[i];
+                
+                // 범위를 벗어나거나 이미 방문 했거나 벽인 경우 다음으로 넘어감
+                if (!isRange(nx, ny) || visited[nx][ny] || map[nx][ny] == 1) {
+                	continue;
+                }
+                
+                // 비활성 바이러스가 있는 곳은 활성 바이러스로 변하기 때문에 if문에 넣지 않음
+                q.add(new Virus(nx, ny, cur.time + 1));
+                visited[nx][ny] = true;
+                
+                // 빈 칸일 경우 바이러스를 퍼뜨리기 때문에 cnt를 감소시킴
+                if (map[nx][ny] == 0) {
+                	cnt--;
+                }
+                
+                // 바이러스를 다 퍼뜨린 경우(빈 칸이 다 없어진 경우) 최단 시간 갱신 후 종료
+                if (cnt == 0) {
+                	answer = Math.min(answer, cur.time + 1);
+                	return;
                 }
 
             }
         }
 
+    }
+    
+    private static boolean isRange(int x, int y) {
+    	return x >= 0 && x < N && y >= 0 && y < N;
     }
 
 }
