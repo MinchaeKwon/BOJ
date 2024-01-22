@@ -77,7 +77,7 @@ public class Main {
 
     }
 
-    // 백트래킹으로 활성 바이러스가 위치할 수 있는 곳 찾음
+    // 조합을 통해 활성 바이러스가 위치할 수 있는 곳 선택
     private static void selectActiveVirus(int start, int depth) {
         // M개의 활성 바이러스를 다 선택한 경우 bfs 실행
         if (depth == M) {
