@@ -10,7 +10,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Main {
 
@@ -18,7 +17,6 @@ public class Main {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
 		String input = br.readLine();
-		
 		
 		// 0으로만 이루어진 그룹이 있을 경우 구분하기 위해 다른 문자열을 넣음
 		if (input.contains("::")) {
