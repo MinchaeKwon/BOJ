@@ -9,7 +9,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
@@ -82,10 +81,10 @@ public class BOJ_14502 {
 		int[][] copy = new int[N][M];
 		
 		for (int i = 0; i < N; i++) {
-			copy[i] = Arrays.copyOf(map[i], N);
-			
 			for (int j = 0; j < M; j++) {
-				if (map[i][j] == 2) {
+				copy[i][j] = map[i][j];
+				
+				if (copy[i][j] == 2) {
 					q.add(new Pair(i, j));
 				}
 			}
