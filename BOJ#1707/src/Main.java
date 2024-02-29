@@ -18,8 +18,6 @@ public class Main {
 	
 	static ArrayList<Integer>[] list;
 	static int[] visited;
-	
-	static int V;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -29,7 +27,7 @@ public class Main {
 		while (K-- > 0) {
 			StringTokenizer st = new StringTokenizer(br.readLine());
 			
-			V = Integer.parseInt(st.nextToken());
+			int V = Integer.parseInt(st.nextToken());
 			int E = Integer.parseInt(st.nextToken());
 			
 			list = new ArrayList[V + 1];
