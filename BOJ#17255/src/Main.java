@@ -34,11 +34,13 @@ public class Main {
 			return;
 		}
 		
+		// 왼쪽에 숫자 붙임
 		if (left - 1 >= 0) {
 			String tmp = N[left - 1] + s;
 			dfs(left - 1, right, tmp, result + " " + tmp);
 		}
 		
+		// 오른쪽에 숫자 붙임
 		if (right + 1 < N.length) {
 			String tmp = s + N[right + 1];
 			dfs(left, right + 1, tmp, result + " " + tmp);
