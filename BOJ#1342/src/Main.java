@@ -37,6 +37,7 @@ public class Main {
 			return;
 		}
 		
+		// 알파벳 개수만큼 반복문 돌림
 		for (int i = 0; i < alpha.length; i++) {
 			if (alpha[i] == 0) {
 				continue;
