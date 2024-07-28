@@ -53,6 +53,7 @@ public class Main {
 		if (depth < len - 1) {
 			n = Integer.parseInt(input.substring(depth, depth + 2));
 			
+			// 숫자가 50보다 작고 아직 방문하지 않은 경우
 			if (n <= 50 && !visited[n]) {
 				visited[n] = true;
 				dfs(depth + 2, Math.max(max, n), result + " " + n);
