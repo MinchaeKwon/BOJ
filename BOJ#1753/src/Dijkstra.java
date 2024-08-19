@@ -23,7 +23,7 @@ public class Dijkstra {
 		}
 		
 		@Override
-		public int compareTo(Dijkstra.Node o) {
+		public int compareTo(Node o) {
 			return this.w - o.w;
 		}
 	}
@@ -89,8 +89,8 @@ public class Dijkstra {
 			
 			for (Node next : list[cur.e]) {
 				// 최솟값 갱신
-				if (dist[next.e] > dist[cur.e] + cur.w) {
-					dist[next.e] = dist[cur.e] + cur.w;
+				if (dist[next.e] > dist[cur.e] + next.w) {
+					dist[next.e] = dist[cur.e] + next.w;
 					pq.add(new Node(next.e, dist[next.e]));
 				}
 			}
