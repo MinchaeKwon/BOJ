@@ -25,40 +25,40 @@ public class Main {
 		while ((input = br.readLine()) != null) {
 			N = Integer.parseInt(input.trim());
 			
-			arr = new int[N + 1];
+			arr = new int[N];
 			dp = new int[N + 1];
 			
 			StringTokenizer st = new StringTokenizer(br.readLine());
 			
-			for (int i = 1; i <= N; i++) {
+			for (int i = 0; i < N; i++) {
 				arr[i] = Integer.parseInt(st.nextToken());
 			}
 			
-			int cnt = 0;
+			int len = 0;
 			
-			for (int i = 1; i <= N; i++) {
-				int start = 1;
-				int end = cnt + 1;
-				int mid = 0;
-				
-				while (start < end) {
-					mid = (start + end) / 2;
+			for (int i = 0; i < N; i++) {
+				if (arr[i] > dp[len]) {
+					dp[++len] = arr[i];
+				} else {
+					int start = 0;
+					int end = len;
+					int mid = 0;
 					
-					if (dp[mid] < arr[i]) {
-						start = mid + 1;
-					} else {
-						end = mid;
+					while (start < end) {
+						mid = (start + end) / 2;
+						
+						if (dp[mid] < arr[i]) {
+							start = mid + 1;
+						} else {
+							end = mid;
+						}
 					}
-				}
-				
-				dp[end] = arr[i];
-				
-				if (end == cnt + 1) {
-					cnt++;
+					
+					dp[end] = arr[i];
 				}
 			}
 			
-			System.out.println(cnt);
+			System.out.println(len);
 		}
 	}
 }
