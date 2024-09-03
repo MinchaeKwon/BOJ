@@ -71,7 +71,6 @@ public class Dijkstra {
 	
 	private static void dijkstra(int start) {
 		PriorityQueue<Node> pq = new PriorityQueue<>();
-		boolean[] visited = new boolean[V + 1];
 		
 		// 시작점과 연결된 노드 탐색
 		pq.add(new Node(start, 0));
@@ -80,18 +79,12 @@ public class Dijkstra {
 		while (!pq.isEmpty()) {
 			Node cur = pq.poll();
 			
-			// 이미 방문한 곳이면 넘어감
-			if (visited[cur.e]) {
-				continue;
-			}
-			
-			visited[cur.e] = true;
-			
+			// 현재 정점과 연결된 노드 탐색
 			for (Node next : list[cur.e]) {
-				// 최솟값 갱신
+				// 최솟값 갱신 (현재 정점을 거쳐서 가는 경우의 경로가 더 작은 경우)
 				if (dist[next.e] > dist[cur.e] + next.w) {
 					dist[next.e] = dist[cur.e] + next.w;
-					pq.add(new Node(next.e, dist[next.e]));
+					pq.add(new Node(next.e, dist[next.e])); // 큐에 추가
 				}
 			}
 		}
