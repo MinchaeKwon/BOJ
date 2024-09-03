@@ -48,25 +48,26 @@ public class Main {
 		 * 그래서 최소 비용은 같음
 		 * */
 		visited[0] = true;
-		dfs(0, 0, 0, 0);
+		dfs(0, 1, 0, 0);
 		
 		System.out.println(answer);
 	}
 	
-	private static void dfs(int start, int now, int depth, int sum) {
-		// 다시 시작점으로 돌아와야 하는데 visited로 인해 시작점은 다시 방문하지 않기 때문에 현재 노드에서 시작점까지의 비용을 더해줌
-		if (depth == N - 1) {
-			if (map[now][start] > 0) {
-				answer = Math.min(answer, sum + map[now][start]);
+	private static void dfs(int start, int depth, int cur, int sum) {
+		// 모든 도시를 다 순회한 경우
+		if (depth == N) {
+			if (map[cur][start] > 0) {
+				answer = Math.min(answer, sum + map[cur][start]); // 시작점으로 가는 비용 추가
 			}
 			
 			return;
 		}
 		
 		for (int i = 0; i < N; i++) {
-			if (!visited[i] && map[now][i] > 0) {
+			// 아직 방문하지 않았고, 연결된 도시인 경우
+			if (!visited[i] && map[cur][i] > 0) {
 				visited[i] = true;
-				dfs(start, i, depth + 1, sum + map[now][i]);
+				dfs(start, depth + 1, i, sum + map[cur][i]);
 				visited[i] = false;
 			}
 		}
