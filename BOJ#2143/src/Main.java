@@ -19,7 +19,7 @@
 import java.io.*;
 import java.util.*;
 
-public class BOJ_2143 {
+public class Main {
 	
 	static int T;
 	static int n, m;
