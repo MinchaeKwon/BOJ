@@ -1,20 +1,20 @@
 /**
- * 1713 후보 추천하기
- * https://www.acmicpc.net/problem/1713
+ * 3079 입국심사
+ * https://www.acmicpc.net/problem/3079
  * 
  * @author minchae
  * @date 2024. 11. 21.
  * 
  * 문제 풀이
- *  - 우선순위큐 이용
- *    추천 횟수를 증가시킬 때 큐에서 삭제한 다음 다시 넣어야 함 -> 우선순위큐는 삽입/삭제 시에만 정렬이 일어나기 때문
- *  - 나머지는 문제에 있는대로 구현하면 됨
+ *  - 이분탐색 이용
+ *    low, high 값을 구하고 중간 값을 구해 해당 시간에 몇 명을 처리할 수 있는지 확인
+ *    처리할 수 있는 사람 수와 M을 비교해 탐색 범위 줄여나감
  *  
  * 시간복잡도
- * O(M * (N + logN))
+ * O(NlogN + Nlog(maxTime))
  *
  * 실행 시간
- * 136 ms
+ * 416 ms
  */
 
 import java.io.*;
@@ -22,73 +22,56 @@ import java.util.*;
 
 public class Main2 {
 	
-	static class Student implements Comparable<Student> {
-		int num;
-		int time; // 사진이 게시된 시간
-		int cnt; // 추천받은 횟수
-		
-		public Student(int num, int time, int cnt) {
-			this.num = num;
-			this.time = time;
-			this.cnt = cnt;
-		}
-
-		@Override
-		public int compareTo(Student o) {
-			if (this.cnt == o.cnt) {
-				return Integer.compare(this.time, o.time);
-			}
-			
-			return Integer.compare(this.cnt, o.cnt);
-		}
-	}
+	static int N;
+	static long M;
+	static int[] times;
 	
-	static int N, M;
-	static PriorityQueue<Student> pq;
-
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		
-		N = Integer.parseInt(br.readLine());
-		M = Integer.parseInt(br.readLine());
-		
-		pq = new PriorityQueue<>();
-		
 		StringTokenizer st = new StringTokenizer(br.readLine());
+		
+		N = Integer.parseInt(st.nextToken());
+		M = Long.parseLong(st.nextToken());
 
-		outer: for (int i = 0; i < M; i++) {
-			int num = Integer.parseInt(st.nextToken());
-			
-			for (Student cur : pq) {
-				// 이미 사진이 게시되어 있는 경우 추천 횟수만 증가시킴
-				if (cur.num == num) {
-					pq.remove(cur);
-					cur.cnt++;
-					pq.add(cur);
-					
-					continue outer;
-				}
-			}
-			
-			// 비어있는 사진틀이 없는 경우
-			if (pq.size() == N) {
-				pq.poll();
-			}
-			
-			// 새로운 사진 게시
-			pq.add(new Student(num, i, 1));
+		times = new int[N];
+
+		for (int i = 0; i < N; i++) {
+			times[i] = Integer.parseInt(br.readLine());
 		}
 		
-		ArrayList<Student> result = new ArrayList<>(pq);
-		Collections.sort(result, (o1, o2) -> o1.num - o2.num);
-		
-		StringBuilder sb = new StringBuilder();
-		
-		for (Student cur : result) {
-			sb.append(cur.num + " ");
-		}
-		
-		System.out.println(sb.toString());
+		System.out.println(getTotalTime());
+	}
+	
+	public static long getTotalTime() {
+        Arrays.sort(times); // 오름차순 정렬
+
+        long low = 0;
+        long high = times[N - 1] * M; // 맨 뒤에 있는 값에 인원 수를 곱한 값이 가장 많이 걸리는 시간임
+
+        while (low <= high) {
+            long mid = (low + high) / 2;
+
+            long people = 0; // mid 시간동안 심사한 인원 -> 처리할 수 있는 사람의 수
+
+            for (long time : times) {
+                long cnt = mid / time; // 한 심사대에서 맡을 수 있는 사람의 수
+
+                // 처리할 수 있는 수가 M을 넘는 경우 더이상 진행하지 않고 for문 탈출
+                if (people >= M) {
+                    break;
+                }
+
+                people += cnt;
+            }
+
+            if (people < M) {
+                low = mid + 1; // M명보다 적을 경우 더 많은 시간이 소요된다는 의미이므로 mid + 1을 해줌
+            } else {
+                high = mid - 1; // mid 시간동안 심사한 인원이 M명 이상일 경우 high = mid - 1을 통해 탐색 범위를 줄여줌
+            }
+        }
+
+        return low;
 	}
 
 }
