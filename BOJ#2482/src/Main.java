@@ -22,7 +22,6 @@
  * 124 ms
  **/
 
-import java.util.*;
 import java.io.*;
 
 public class Main {
