@@ -3,7 +3,7 @@
  * https://www.acmicpc.net/problem/22254
  *
  * @author minchae
- * @date 2025. 3. 4.
+ * @date 2025. 3. 5.
  *
  * 문제 풀이
  * - 고냥이 풀고 와서 이거 보는데 또 내가 싫어하는 유형의 느낌이 난다.. 이분 탐색..
