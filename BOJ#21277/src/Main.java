@@ -23,7 +23,7 @@ public class Main {
 	static final int INF = Integer.MAX_VALUE;
 	
     static int n, m, r, c;
-    static int[][] board, puzzle = new int[55][55];
+    static int[][] board, puzzle;
     
     static int answer = INF;
 
